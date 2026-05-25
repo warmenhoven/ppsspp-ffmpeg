@@ -1807,7 +1807,7 @@ int attribute_align_arg avcodec_encode_audio2(AVCodecContext *avctx,
             avpkt->buf      = user_pkt.buf;
             avpkt->data     = user_pkt.data;
         } else {
-            if (av_dup_packet(avpkt) < 0) {
+            if (av_packet_make_refcounted(avpkt) < 0) {
                 ret = AVERROR(ENOMEM);
             }
         }
@@ -1896,7 +1896,7 @@ int attribute_align_arg avcodec_encode_video2(AVCodecContext *avctx,
             avpkt->buf      = user_pkt.buf;
             avpkt->data     = user_pkt.data;
         } else {
-            if (av_dup_packet(avpkt) < 0) {
+            if (av_packet_make_refcounted(avpkt) < 0) {
                 ret = AVERROR(ENOMEM);
             }
         }

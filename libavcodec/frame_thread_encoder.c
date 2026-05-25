@@ -89,7 +89,7 @@ static void * attribute_align_arg worker(void *v){
         pthread_mutex_unlock(&c->buffer_mutex);
         av_frame_free(&frame);
         if(got_packet) {
-            av_dup_packet(pkt);
+            av_packet_make_refcounted(pkt);
         } else {
             pkt->data = NULL;
             pkt->size = 0;
