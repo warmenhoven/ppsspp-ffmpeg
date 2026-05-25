@@ -601,6 +601,24 @@ void av_packet_move_ref(AVPacket *dst, AVPacket *src)
     av_init_packet(src);
 }
 
+int av_packet_make_refcounted(AVPacket *pkt)
+{
+    int ret;
+
+    if (pkt->buf)
+	return 0;
+
+    ret = packet_alloc(&pkt->buf, pkt->size);
+    if (ret < 0)
+	return ret;
+    if (pkt->size)
+	memcpy(pkt->buf->data, pkt->data, pkt->size);
+
+    pkt->data = pkt->buf->data;
+
+    return 0;
+}
+
 void av_packet_rescale_ts(AVPacket *pkt, AVRational src_tb, AVRational dst_tb)
 {
     if (pkt->pts != AV_NOPTS_VALUE)
